@@ -1,0 +1,2 @@
+module EntityTokensHelper
+end

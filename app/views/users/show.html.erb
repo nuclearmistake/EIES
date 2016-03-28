@@ -1,0 +1,11 @@
+<p id="notice"><%= notice %></p>
+<div><%= @user.email %></div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">My Entities</div>
+  </div>
+  <div class="panel-body">
+  </div>
+</div>
+<%= link_to "Edit User", edit_user_path(@user), class: "btn btn-primary" %>
+<%= link_to "Add Entity", new_entity_path, class: "btn btn-success" %>
