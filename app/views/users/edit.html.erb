@@ -1,6 +1,13 @@
-<h1>Editing User</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<% provide(:title, "Edit User") %>
+<div class="content-small">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        Edit User
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

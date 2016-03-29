@@ -4,6 +4,7 @@ class CreateEntities < ActiveRecord::Migration
       t.string :name
       t.string :domain
       t.integer :port
+      t.belongs_to :user, index: true
 
       t.timestamps null: false
     end

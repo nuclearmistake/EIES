@@ -17,9 +17,12 @@ ActiveRecord::Schema.define(version: 20160301005149) do
     t.string   "name"
     t.string   "domain"
     t.integer  "port"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "entities", ["user_id"], name: "index_entities_on_user_id"
 
   create_table "entity_tokens", force: :cascade do |t|
     t.string   "key"

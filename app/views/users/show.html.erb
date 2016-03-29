@@ -4,6 +4,18 @@
     <div class="panel-title">My Entities</div>
   </div>
   <div class="panel-body">
+    <table class="table table-default table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Domain</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+    <% @user.entities.each do |e| %>
+      <%= render e %>
+    <% end %>
+    </table>
   </div>
 </div>
 <%= link_to "Edit User", edit_user_path(@user), class: "btn btn-primary" %>
