@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, :authorize, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         session[:user_id] = @user.id
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, flash: { success: 'User was successfully created.' } }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, flash: { success: 'User was successfully updated.' } }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, flash: { success: 'User was successfully destroyed.' } }
       format.json { head :no_content }
     end
   end
@@ -79,5 +79,12 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def session_params
       params[:user].permit(:email, :password )
+    end
+
+    def authorize
+      if @user.id != session[:user_id]
+        flash[:danger] = "User operation is forbidden"
+        redirect_to "/home"
+      end
     end
 end

@@ -13,10 +13,33 @@
         <div class="navbar-header">
           <%= link_to "EIES", "/home", class: "navbar-brand" %>
         </div>
+        <ul class="nav navbar-nav navbar-right">
+            <% if @user.try(:id) %>
+              <li id="email" class="navbtn">
+                <%= link_to @user do %>
+                  <%= @user.email %>&nbsp;
+                <% end %>
+              </li>
+              <li class="divider"></li>
+              <li class="navbtn"><%= link_to "Logout", "/login", method: :delete %></li>
+            <% else %>
+              <li class="navbtn"><%= link_to "Login", "/login" %></li>
+              <li class="divider"></li>
+              <li class="navbtn"><%= link_to "Register", :new_user %></li>
+            <% end %>
+          </ul>
       </div>
     </nav>
   </div>
-  <div id="content" class="content"><%= yield %></div>
+  <div id="content" class="content">
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %> fade-in">
+        <%= value %>
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    </div>
+    <% end %>
+    <%= yield %>
+  </div>
   <div id="footer"></div>
 </body>
 </html>

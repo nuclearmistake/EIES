@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   root 'sessions#new'
   post 'login' => 'sessions#create'
+  get  'login' => 'sessions#new'
   get  'home'  => 'sessions#create'
+  delete 'login' => 'sessions#destroy'
 
   resources :users
   resources :entity_tokens
