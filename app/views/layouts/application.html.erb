@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>EIES</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : EIES %></title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
 </head>
 <body>
   <div id="navigation">
@@ -14,20 +14,20 @@
           <%= link_to "EIES", "/home", class: "navbar-brand" %>
         </div>
         <ul class="nav navbar-nav navbar-right">
-            <% if @user.try(:id) %>
-              <li id="email" class="navbtn">
-                <%= link_to @user do %>
-                  <%= @user.email %>&nbsp;
-                <% end %>
+          <% if @user.try(:id) %>
+            <li id="email" class="navbtn">
+              <%= link_to @user do %>
+                <%= @user.email %>&nbsp;
+              <% end %>
               </li>
               <li class="divider"></li>
               <li class="navbtn"><%= link_to "Logout", "/login", method: :delete %></li>
-            <% else %>
+          <% else %>
               <li class="navbtn"><%= link_to "Login", "/login" %></li>
               <li class="divider"></li>
               <li class="navbtn"><%= link_to "Register", :new_user %></li>
-            <% end %>
-          </ul>
+          <% end %>
+        </ul>
       </div>
     </nav>
   </div>
@@ -35,8 +35,8 @@
     <% flash.each do |key, value| %>
       <div class="alert alert-<%= key %> fade-in">
         <%= value %>
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    </div>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      </div>
     <% end %>
     <%= yield %>
   </div>

@@ -11,6 +11,7 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
+    redirect_to @user
   end
 
   # GET /entities/new
@@ -70,7 +71,7 @@ class EntitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def entity_params
-      params.require(:entity).permit(:name)
+      params.require(:entity).permit(:name, :domain, :port)
     end
 
     def authorize

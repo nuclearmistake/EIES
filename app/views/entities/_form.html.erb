@@ -2,7 +2,6 @@
   <% if @entity.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@entity.errors.count, "error") %> prohibited this entity from being saved:</h2>
-
       <ul>
       <% @entity.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -10,12 +9,19 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="field form-group">
+    <%= f.label :name, "Entity Name"  %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+  <div class="field form-group">
+    <%= f.label :domain %>
+    <%= f.text_field :domain, class: "form-control"%>
+  </div>
+  <div class="field form-group">
+    <%= f.label :port %>
+    <%= f.text_field :port, { class: "form-control", pattern: "[0-9]+", title: "An integer representing a port address" } %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-success" %>
   </div>
 <% end %>
