@@ -15,11 +15,14 @@ ActiveRecord::Schema.define(version: 20160301005149) do
 
   create_table "entities", force: :cascade do |t|
     t.string   "name"
+    t.string   "domain"
+    t.integer  "port"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "entity_tokens", force: :cascade do |t|
+    t.string   "key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -33,8 +36,8 @@ ActiveRecord::Schema.define(version: 20160301005149) do
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end

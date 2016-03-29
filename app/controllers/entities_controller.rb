@@ -1,5 +1,6 @@
 class EntitiesController < ApplicationController
   before_action :set_entity, only: [:show, :edit, :update, :destroy]
+  before_action :authorize, only: [:edit, :update, :destroy]
 
   # GET /entities
   # GET /entities.json
@@ -28,7 +29,7 @@ class EntitiesController < ApplicationController
 
     respond_to do |format|
       if @entity.save
-        format.html { redirect_to @entity, notice: 'Entity was successfully created.' }
+        format.html { redirect_to @entity, flash: { success: 'Entity was successfully created.' } }
         format.json { render :show, status: :created, location: @entity }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class EntitiesController < ApplicationController
   def update
     respond_to do |format|
       if @entity.update(entity_params)
-        format.html { redirect_to @entity, notice: 'Entity was successfully updated.' }
+        format.html { redirect_to @entity, flash: { success: 'Entity was successfully updated.' } }
         format.json { render :show, status: :ok, location: @entity }
       else
         format.html { render :edit }
@@ -56,7 +57,7 @@ class EntitiesController < ApplicationController
   def destroy
     @entity.destroy
     respond_to do |format|
-      format.html { redirect_to entities_url, notice: 'Entity was successfully destroyed.' }
+      format.html { redirect_to entities_url, flash: { success: 'Entity was successfully destroyed.' } }
       format.json { head :no_content }
     end
   end
@@ -70,5 +71,12 @@ class EntitiesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def entity_params
       params.require(:entity).permit(:name)
+    end
+
+    def authorize
+      unless session[:user_id] == @entity.user_id
+        flash[:error] = "User does not own this entity"
+        redirect_to "/home"
+      end
     end
 end
