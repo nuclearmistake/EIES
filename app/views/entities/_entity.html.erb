@@ -15,7 +15,7 @@
   </td>
   <td class="form-group">
     <% if entity.entity_token %>
-      <%= link_to "Revoke Token", entity.entity_token, method: "delete", class: "btn btn-warning" %>
+      <%= link_to "Revoke", entity.entity_token, method: "delete", class: "btn btn-warning" %>
     <% else %>
       <%= link_to "Create Token", new_entity_token_path(entity_id: entity[:id]), class: "btn btn-success" %>
     <% end %>

@@ -77,6 +77,7 @@ class EntityTokensController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_entity_token
       @entity_token = EntityToken.find(params[:id])
+      @entity = @entity_token.entity
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
