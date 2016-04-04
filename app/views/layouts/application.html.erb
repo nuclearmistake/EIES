@@ -4,7 +4,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "EIES" %></title>
     <script>
       // force https if running on heroku and accessed with http
-      if (~document.location.search('http://eies.herokuapp.com'))
+      if (~document.location.href.search('http://eies.herokuapp.com'))
         document.location.href = document.location.href.replace('http://','https://');
     </script>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
