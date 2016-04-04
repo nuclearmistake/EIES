@@ -11,10 +11,8 @@ EIES is a public key exchange service for data security around common
 networking protocols, like HTTP. This server is simply a centralized key
 exchange and registration service.
 
-
-Things you may want to cover:
-
 * Ruby version
+2.2.1
 
 * System dependencies
 
