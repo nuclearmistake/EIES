@@ -1,11 +1,11 @@
 <% provide(:title, "My Entities") %>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <div class="panel-title">My Entities</div>
-  </div>
-  <div class="panel-body">
-    <div class="row">
-      <div class="col-md-9">
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">My Entities</div>
+      </div>
+      <div class="panel-body">
         <table class="table table-default table-striped table-hover">
           <thead>
             <tr>
@@ -18,12 +18,19 @@
             </tr>
           </thead>
           <% @user.entities.each do |e| %>
-          <%= render e %>
+            <%= render e %>
           <% end %>
         </table>
         <%= link_to "Add Entity", new_entity_path, class: "btn btn-success" %>
       </div>
-      <div class="col-md-3">
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">My Keys</div>
+      </div>
+      <div class="panel-body">
         <table class="table table-default table-striped table-hover">
           <thead>
             <tr>
