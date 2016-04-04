@@ -25,16 +25,26 @@ ActiveRecord::Schema.define(version: 20160301005149) do
   add_index "entities", ["user_id"], name: "index_entities_on_user_id"
 
   create_table "entity_tokens", force: :cascade do |t|
-    t.string   "key"
+    t.integer  "user_id"
+    t.integer  "entity_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "entity_tokens", ["entity_id"], name: "index_entity_tokens_on_entity_id"
+  add_index "entity_tokens", ["user_id"], name: "index_entity_tokens_on_user_id"
+
   create_table "keys", force: :cascade do |t|
+    t.string   "name"
     t.string   "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "entity_token_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
+
+  add_index "keys", ["entity_token_id"], name: "index_keys_on_entity_token_id"
+  add_index "keys", ["user_id"], name: "index_keys_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

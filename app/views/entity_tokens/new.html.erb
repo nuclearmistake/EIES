@@ -1,5 +1,13 @@
-<h1>New Entity Token</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', entity_tokens_path %>
+<% provide(:title, "New Entity Token") %>
+<div class="content-small">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        New Entity Token
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

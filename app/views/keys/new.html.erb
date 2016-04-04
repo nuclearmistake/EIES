@@ -1,5 +1,13 @@
-<h1>New Key</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', keys_path %>
+<% provide(:title, "New Key") %>
+<div class="content-small">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">
+        New Key
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

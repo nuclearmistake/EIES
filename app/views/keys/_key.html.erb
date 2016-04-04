@@ -1,0 +1,9 @@
+<tr>
+  <td>
+    <%= content_tag :span, key[:name] %>
+  </td>
+  <td>
+    <%= link_to "Edit", edit_key_path(key), class: "btn btn-primary" %>
+    <%= link_to "Delete", key, method: "delete", class: "btn btn-danger" %>
+  </td>
+</tr>

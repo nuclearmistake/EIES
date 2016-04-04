@@ -3,4 +3,5 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :entities
   has_many :entity_tokens
+  has_many :keys
 end

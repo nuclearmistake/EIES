@@ -8,6 +8,20 @@
   <td class="form-group">
     <%= content_tag :span, entity[:port] %>
   </td>
-  <td><%= link_to "Edit", edit_entity_path(entity), class: "btn btn-primary" %></td>
-  <td><%= link_to "Delete", entity, method: "delete", class: "btn btn-danger" %></td>
+  <td class="form-group">
+    <% if entity.entity_token %>
+      <%= content_tag :span, entity.entity_token.key[:name] %>
+    <% end  %>
+  </td>
+  <td class="form-group">
+    <% if entity.entity_token %>
+      <%= link_to "Revoke Token", entity.entity_token, method: "delete", class: "btn btn-warning" %>
+    <% else %>
+      <%= link_to "Create Token", new_entity_token_path(entity_id: entity[:id]), class: "btn btn-success" %>
+    <% end %>
+  </td>
+  <td class="form-group">
+    <%= link_to "Edit", edit_entity_path(entity), class: "btn btn-primary" %>
+    <%= link_to "Delete", entity, method: "delete", class: "btn btn-danger" %>
+  </td>
 </tr>
