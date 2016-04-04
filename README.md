@@ -1,11 +1,11 @@
-== README
+## README
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-==== Entity Identity Exchange System (EIES)
+#### Entity Identity Exchange System (EIES)
 
-===== Overview
+###### Overview
 
 EIES is a public key exchange service for data security around common
 networking protocols, like HTTP. This server is simply a centralized key
@@ -28,9 +28,3 @@ PostGreSQL
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
