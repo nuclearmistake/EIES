@@ -18,7 +18,8 @@ exchange and registration service.
 
 * Configuration
 
-* Database creation
+* Database
+PostGreSQL
 
 * Database initialization
 
