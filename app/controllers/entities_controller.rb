@@ -1,7 +1,6 @@
 class EntitiesController < ApplicationController
   before_action :set_user
-  before_action :set_entity, only: [:show, :edit, :update, :destroy]
-  before_action :authorize, only: [:edit, :update, :destroy]
+  before_action :set_entity, :authorize, only: [:show, :edit, :update, :destroy]
 
   # GET /entities
   # GET /entities.json
@@ -12,7 +11,10 @@ class EntitiesController < ApplicationController
   # GET /entities/1
   # GET /entities/1.json
   def show
-    redirect_to @user
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { @user}
+    end
   end
 
   # GET /entities/new
@@ -65,10 +67,6 @@ class EntitiesController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(session[:user_id])
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_entity
       @entity = Entity.find(params[:id])
@@ -80,9 +78,13 @@ class EntitiesController < ApplicationController
     end
 
     def authorize
-      unless session[:user_id] == @entity.user_id
-        flash[:danger] = "User does not own this entity"
-        redirect_to :back
+      unless session[:user_id] == @entity.user.id
+        error = "User does not own this entity"
+        flash[:danger] = error
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render json: { error: error }, status: :forbidden }
+        end
       end
     end
 end

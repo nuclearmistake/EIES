@@ -9,11 +9,10 @@
       </ul>
     </div>
   <% end %>
-  <%= f.hidden_field :entity_id, value: @entity.id %>
-  <%= f.hidden_field :user_id, value: @user.id %>
+  <%= f.hidden_field :entity_id, value: @entity_token.entity.id %>
   <div class="field form-group">
-    <%= f.label :key %>
-    <%= f.collection_select :key, @user.keys, :id, :name, {}, {class: "form-control"} %>
+    <%= f.label :key_id %>
+    <%= f.collection_select :key_id, @user.keys, :id, :name, {}, {class: "form-control"} %>
   </div>
   <div class="actions">
     <%= f.submit "Create Entity Token", class: "btn btn-success" %>

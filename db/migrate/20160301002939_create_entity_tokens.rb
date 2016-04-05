@@ -3,6 +3,7 @@ class CreateEntityTokens < ActiveRecord::Migration
     create_table :entity_tokens do |t|
       t.belongs_to :user, index: true
       t.belongs_to :entity, index: true
+      t.belongs_to :key, index: true
 
       t.timestamps null: false
     end

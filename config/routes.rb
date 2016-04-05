@@ -6,18 +6,21 @@ Rails.application.routes.draw do
   delete 'login' => 'sessions#destroy'
 
   resources :users
-  resources :entity_tokens
+  resources :entity_tokens, except: [:update]
   resources :entities
   resources :keys
+
+  get "/404" => "errors#not_found"
+  get "/500" => "errors#exception"
 
   # API v1
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       post 'login' => 'sessions#create'
       delete 'login' => 'sessions#destroy'
-      resources :entities, only: [:create, :edit, :show, :destroy]
+      resources :entities, only: [:create, :update, :show, :destroy]
       resources :entity_tokens, only: [:create, :show, :destroy]
-      resources :keys, only: [:create, :edit, :show, :destroy]
+      resources :keys, only: [:create, :update, :show, :destroy]
     end
   end
 

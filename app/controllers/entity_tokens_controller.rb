@@ -1,6 +1,6 @@
 class EntityTokensController < ApplicationController
   before_action :set_user
-  before_action :set_entity_token, only: [:show, :edit, :update, :destroy]
+  before_action :set_entity_token, :authorize, only: [:show, :edit, :update, :destroy]
 
   # GET /entity_tokens
   # GET /entity_tokens.json
@@ -11,13 +11,16 @@ class EntityTokensController < ApplicationController
   # GET /entity_tokens/1
   # GET /entity_tokens/1.json
   def show
-    redirect_to @user
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { render json: @entity_token, status: :ok }
+    end
   end
 
   # GET /entity_tokens/new
   def new
-    @entity = Entity.find(params[:entity_id])
     @entity_token = EntityToken.new
+    @entity_token.entity = Entity.find(params[:entity_id])
   end
 
   # GET /entity_tokens/1/edit
@@ -27,12 +30,8 @@ class EntityTokensController < ApplicationController
   # POST /entity_tokens
   # POST /entity_tokens.json
   def create
-    p = entity_token_params
-    @user = User.find(p[:user_id])
-    @entity = Entity.find(p[:entity_id])
-    @key = Key.find(p[:key])
-    p[:key] = @key
-    @entity_token = EntityToken.new(p)
+    @entity_token = EntityToken.new(entity_token_params)
+    @entity_token.user = @user
 
     respond_to do |format|
       if @entity_token.save
@@ -40,20 +39,6 @@ class EntityTokensController < ApplicationController
         format.json { render :show, status: :created, location: @entity_token }
       else
         format.html { render :new }
-        format.json { render json: @entity_token.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /entity_tokens/1
-  # PATCH/PUT /entity_tokens/1.json
-  def update
-    respond_to do |format|
-      if @entity_token.update(entity_token_params)
-        format.html { redirect_to @entity_token, flash: { success: 'Entity token was successfully updated.' } }
-        format.json { render :show, status: :ok, location: @entity_token }
-      else
-        format.html { render :edit }
         format.json { render json: @entity_token.errors, status: :unprocessable_entity }
       end
     end
@@ -70,18 +55,26 @@ class EntityTokensController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(session[:user_id])
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_entity_token
       @entity_token = EntityToken.find(params[:id])
       @entity = @entity_token.entity
+      @key = @entity_token.key
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def entity_token_params
-      params.require(:entity_token).permit(:entity_id, :user_id, :key)
+      params.require(:entity_token).permit(:entity_id, :key_id)
+    end
+
+    def authorize
+      unless session[:user_id] == @entity_token.user.id
+        error = "User does not own this entity_token"
+        flash[:danger] = error
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render json: { error: error }, status: :forbidden }
+        end
+      end
     end
 end

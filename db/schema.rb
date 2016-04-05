@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160301005149) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "entities", force: :cascade do |t|
     t.string   "name"
     t.string   "domain"
@@ -22,29 +25,29 @@ ActiveRecord::Schema.define(version: 20160301005149) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "entities", ["user_id"], name: "index_entities_on_user_id"
+  add_index "entities", ["user_id"], name: "index_entities_on_user_id", using: :btree
 
   create_table "entity_tokens", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "entity_id"
+    t.integer  "key_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "entity_tokens", ["entity_id"], name: "index_entity_tokens_on_entity_id"
-  add_index "entity_tokens", ["user_id"], name: "index_entity_tokens_on_user_id"
+  add_index "entity_tokens", ["entity_id"], name: "index_entity_tokens_on_entity_id", using: :btree
+  add_index "entity_tokens", ["key_id"], name: "index_entity_tokens_on_key_id", using: :btree
+  add_index "entity_tokens", ["user_id"], name: "index_entity_tokens_on_user_id", using: :btree
 
   create_table "keys", force: :cascade do |t|
     t.string   "name"
     t.string   "body"
     t.integer  "user_id"
-    t.integer  "entity_token_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "keys", ["entity_token_id"], name: "index_keys_on_entity_token_id"
-  add_index "keys", ["user_id"], name: "index_keys_on_user_id"
+  add_index "keys", ["user_id"], name: "index_keys_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

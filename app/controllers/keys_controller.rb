@@ -1,6 +1,6 @@
 class KeysController < ApplicationController
   before_action :set_user
-  before_action :set_key, only: [:show, :edit, :update, :destroy]
+  before_action :set_key, :authorize, only: [:show, :edit, :update, :destroy]
 
   # GET /keys
   # GET /keys.json
@@ -11,7 +11,10 @@ class KeysController < ApplicationController
   # GET /keys/1
   # GET /keys/1.json
   def show
-    redirect_to @user
+    respond_to do |format|
+      format.html { redirect_to @user }
+      format.json { render json: @key }
+    end
   end
 
   # GET /keys/new
@@ -27,6 +30,7 @@ class KeysController < ApplicationController
   # POST /keys.json
   def create
     @key = Key.new(key_params)
+    @key.user = @user
 
     respond_to do |format|
       if @key.save
@@ -64,10 +68,6 @@ class KeysController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find(session[:user_id])
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_key
       @key = Key.find(params[:id])
@@ -75,6 +75,17 @@ class KeysController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def key_params
-      params.require(:key).permit(:name, :body, :user_id)
+      params.require(:key).permit(:name, :body)
+    end
+
+    def authorize
+      unless session[:user_id] == @key.user.id
+        error = "User does not own this key"
+        flash[:danger] = error
+        respond_to do |format|
+          format.html { redirect_to :back }
+          format.json { render json: { error: error }, status: :forbidden }
+        end
+      end
     end
 end

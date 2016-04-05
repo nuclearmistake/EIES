@@ -1,15 +1,18 @@
 class SessionsController < ApplicationController
-  protect_from_forgery except: :create
+  protect_from_forgery with: :exception, except: [:create, :destroy]
 
   def new
+    unless @user.nil?
+      redirect_to @user
+    end
   end
 
   def create
-    if session && session[:user_id] && session[:user_token]
+    if session && session[:user_id]
       @user ||= User.find(session[:user_id])
       respond_to do |format|
         format.html { redirect_to @user }
-        format.json { render json: session, status: :ok }
+        format.json { render json: session_params, status: :ok }
       end
       return
     end
@@ -26,10 +29,9 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password])
       # Log the user in and redirect to the user's show page.
       session[:user_id] = @user.id
-      session[:state]  = SecureRandom.hex
       respond_to do |format|
         format.html { redirect_to @user }
-        format.json { render json: session, status: :ok }
+        format.json { render json: session_params, status: :ok }
       end
       return
     else
@@ -45,8 +47,14 @@ class SessionsController < ApplicationController
   def destroy
     @user = nil
     session[:user_id] = nil
-    session[:state] = nil
-    redirect_to "/home"
+    respond_to do |format|
+      format.html { redirect_to :home }
+      format.json { head :no_content }
+    end
   end
 
+  private
+  def session_params
+    { session_id: session.id }
+  end
 end
