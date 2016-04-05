@@ -9,6 +9,18 @@ Rails.application.routes.draw do
   resources :entity_tokens
   resources :entities
   resources :keys
+
+  # API v1
+  namespace :api, defaults: { format: 'json' } do
+    namespace :v1 do
+      post 'login' => 'sessions#create'
+      delete 'login' => 'sessions#destroy'
+      resources :entities, only: [:create, :edit, :show, :destroy]
+      resources :entity_tokens, only: [:create, :show, :destroy]
+      resources :keys, only: [:create, :edit, :show, :destroy]
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
