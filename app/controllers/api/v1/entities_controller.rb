@@ -15,6 +15,6 @@ class Api::V1::EntitiesController < ::EntitiesController
   end
 
   def destroy
-    super
+b    super
   end
 end

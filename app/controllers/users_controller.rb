@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, :authorize, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, :authorize, only: [:show, :edit, :update]
 
   # GET /users
   # GET /users.json
@@ -11,7 +11,15 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-   @user ||= User.find_by(id: session[:user_id])
+    respond_to do |format|
+      format.html { render :show }
+      format.json {
+        render json: @user.as_json(
+                 include: [{ entities: { include: :entity_token } }, :keys],
+                 except: :password_digest
+               )
+      }
+    end
   end
 
   # GET /users/new
@@ -52,16 +60,6 @@ class UsersController < ApplicationController
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /users/1
-  # DELETE /users/1.json
-  def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, flash: { success: 'User was successfully destroyed.' } }
-      format.json { head :no_content }
     end
   end
 
