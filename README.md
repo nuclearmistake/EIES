@@ -29,7 +29,7 @@ Retreive all of the current user's information
 ###### Keys
 Query for a public key
   ```
-  GET https://eies.herokuapp.com/api/v1/public_key?domain=DOMAIN&port=PORT
+  GET https://eies.herokuapp.com/api/v1/public_keys?domain=DOMAIN&port=PORT
   ```
 Create a new key
   ```
