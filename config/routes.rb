@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'login' => 'sessions#create'
       delete 'login' => 'sessions#destroy'
-      get 'public_key' => 'keys#get'
+      get 'public_keys' => 'keys#get'
       resources :users, only: [:show]
       resources :entities, only: [:create, :update, :show, :destroy]
       resources :entity_tokens, only: [:create, :show, :destroy]
