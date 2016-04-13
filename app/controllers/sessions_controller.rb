@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       @user ||= User.find(session[:user_id])
       respond_to do |format|
         format.html { redirect_to @user }
-        format.json { render json: session.as_json(only: ["session_id", "user_id"]), status: :ok }
+        format.json { render json: { session_id: session.id, user_id: session["user_id"] }, status: :ok }
       end
       return
     end
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       respond_to do |format|
         format.html { redirect_to @user }
-        format.json { render json: session.as_json(only: ["session_id", "user_id"]), status: :ok }
+        format.json { render json: { session_id: session.id, user_id: session["user_id"] }, status: :ok }
       end
       return
     else
